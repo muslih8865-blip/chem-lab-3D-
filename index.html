@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>مختبر الكيمياء التفاعلي — ChemLab 3D</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img alt="logo" class="logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><rect rx='8' width='44' height='44' fill='%2360a5fa'/><text x='50%' y='57%' font-size='16' text-anchor='middle' fill='white' font-family='Arial'>🔬</text></svg>"/>
+        <div>
+          <h1>مختبر الكيمياء التفاعلي</h1>
+          <div class="subtitle">ChemLab 3D — تجربة افتراضية تفاعلية</div>
+        </div>
+      </div>
+
+      <div class="user-area">
+        <div id="welcomeTxt">مرحبًا — لم تقم بتسجيل الدخول</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="toggle3D" class="btn small">تعطيل 3D</button>
+          <button id="loginBtn" class="btn small">تسجيل / دخول</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <aside class="sidebar panel">
+        <section>
+          <h2>المواد</h2>
+          <div class="hint">اسحب المواد إلى أي أنبوب</div>
+          <div id="materials" class="chem-list"></div>
+        </section>
+
+        <section>
+          <h3>الإعدادات</h3>
+          <div class="levels" id="levels">
+            <button class="chip active" data-level="beginner">مبتدئ</button>
+            <button class="chip" data-level="intermediate">متوسط</button>
+            <button class="chip" data-level="advanced">متقدم</button>
+          </div>
+          <div style="margin-top:10px">
+            <button id="challengeBtn" class="btn">ابدأ تحدي</button>
+            <button id="clearBtn" class="btn alt">تفريغ الأنابيب</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>النقاط / المتصدرون</h3>
+          <div class="score">النقاط: <span id="score">0</span></div>
+          <button id="resetScore" class="btn alt small">إعادة تعيين النقاط</button>
+          <div class="leaderboard panel small" id="leaderboard">
+            <strong>المتصدرون</strong>
+            <ol id="leadersList"></ol>
+          </div>
+        </section>
+
+      </aside>
+
+      <section class="panel lab-area">
+        <div class="lab-top">
+          <strong>المختبر</strong>
+          <div class="challengeStatus" id="challengeStatus">وضع اللعب: حر</div>
+        </div>
+
+        <div class="lab" id="lab">
+          <!-- small 3D scenes will attach inside each .tube-body -->
+          <!-- 4 أنابيب للتجربة -->
+          <div class="test-tube" data-id="tube-1">
+            <div class="tube-neck">أنبوب 1</div>
+            <div class="tube-body dropzone" data-tube="1">
+              <div class="liquid" data-level="0"></div>
+            </div>
+            <div class="tube-label">محتويات: <span class="contents">فارغ</span></div>
+          </div>
+
+          <div class="test-tube" data-id="tube-2">
+            <div class="tube-neck">أنبوب 2</div>
+            <div class="tube-body dropzone" data-tube="2">
+              <div class="liquid" data-level="0"></div>
+            </div>
+            <div class="tube-label">محتويات: <span class="contents">فارغ</span></div>
+          </div>
+
+          <div class="test-tube" data-id="tube-3">
+            <div class="tube-neck">أنبوب 3</div>
+            <div class="tube-body dropzone" data-tube="3">
+              <div class="liquid" data-level="0"></div>
+            </div>
+            <div class="tube-label">محتويات: <span class="contents">فارغ</span></div>
+          </div>
+
+          <div class="test-tube" data-id="tube-4">
+            <div class="tube-neck">أنبوب 4</div>
+            <div class="tube-body dropzone" data-tube="4">
+              <div class="liquid" data-level="0"></div>
+            </div>
+            <div class="tube-label">محتويات: <span class="contents">فارغ</span></div>
+          </div>
+        </div>
+
+        <div class="controls-bar">
+          <div>
+            <button id="mixBtn" class="btn">اخلط!</button>
+            <button id="autoSuggest" class="btn alt small">اقترح تفاعل</button>
+            <button id="hintBtn" class="btn small">تلميح</button>
+          </div>
+          <div class="log mini" id="quickResults">لا توجد تفاعلات بعد</div>
+        </div>
+
+        <div class="info panel" id="info">
+          <strong>تعليم:</strong>
+          <div id="infoText">اسحب المواد إلى الأنابيب ثم اضغط "اخلط!"</div>
+        </div>
+
+      </section>
+
+      <aside class="panel rightcol">
+        <h3>التحديات</h3>
+        <div id="challengeBox" class="panel small">اضغط "ابدأ تحدي" لبدء مهمة عشوائية (مثال: "انتج رغوة").</div>
+
+        <h3>سجل التفاعلات</h3>
+        <div id="log" class="reaction-log">السجل سيظهر هنا...</div>
+
+        <h3>تعليمات سريعة</h3>
+        <div class="small">نسخة 3D خفيفة — تأثيرات داخل الأنبوب. يمكنك تعطيل 3D إن لزم.</div>
+      </aside>
+
+    </main>
+
+    <footer class="footer panel">
+      <div>تم الإنشاء بواسطة مساعدك — ChemLab 3D</div>
+      <div><a id="exportBtn" class="btn small alt">تصدير/تحميل مشروع (ZIP)</a></div>
+    </footer>
+  </div>
+
+  <div id="modals"></div>
+
+  <!-- Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+  <script src="js/app-3d.js"></script>
+</body>
+</html>
